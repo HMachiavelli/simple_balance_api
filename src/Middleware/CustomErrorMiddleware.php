@@ -29,7 +29,7 @@ class CustomErrorMiddleware
 
         $errorMiddleware->setErrorHandler(
             HttpBadRequestException::class,
-            function (\Psr\Http\Message\ServerRequestInterface $request, Throwable $exception) {
+            function (\Psr\Http\Message\ServerRequestInterface $request, \Throwable $exception) {
                 $response = new Response();
                 $response->getBody()->write($exception->getMessage());
                 return $response->withHeader('Content-Type', 'application/json')->withStatus(400);
