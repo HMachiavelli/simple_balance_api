@@ -9,23 +9,27 @@ use Slim\Exception\HttpBadRequestException;
 
 class EventValidator
 {
+    const TYPE_DEPOSIT = 'deposit';
+    const TYPE_TRANSFER = 'transfer';
+    const TYPE_WITHDRAW = 'withdraw';
+
     public static function validate($request, array $params): array
     {
         $types = [
-            Event::TYPE_DEPOSIT,
-            Event::TYPE_TRANSFER,
-            Event::TYPE_WITHDRAW
+            self::TYPE_DEPOSIT,
+            self::TYPE_TRANSFER,
+            self::TYPE_WITHDRAW
         ];
 
         if (!in_array($params['type'], $types)) {
             throw new HttpBadRequestException($request, 'Invalid type.');
         }
 
-        if (empty($params['destination']) && ($params['type'] == Event::TYPE_DEPOSIT || $params['type'] == Event::TYPE_TRANSFER)) {
+        if (empty($params['destination']) && ($params['type'] == self::TYPE_DEPOSIT || $params['type'] == self::TYPE_TRANSFER)) {
             throw new HttpBadRequestException($request, 'Destination ID required.');
         }
 
-        if (empty($params['origin']) && ($params['type'] == Event::TYPE_WITHDRAW || $params['type'] == Event::TYPE_TRANSFER)) {
+        if (empty($params['origin']) && ($params['type'] == self::TYPE_WITHDRAW || $params['type'] == self::TYPE_TRANSFER)) {
             throw new HttpBadRequestException($request, 'Origin ID required.');
         }
 

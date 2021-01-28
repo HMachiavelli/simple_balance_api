@@ -18,17 +18,14 @@ class EventController
         $params = (array)$request->getParsedBody();
         $params = EventValidator::validate($request, $params);
 
-        $event = new Event($params);
-        $event->insert();
-
         switch ($params['type']) {
-            case $event::TYPE_DEPOSIT:
+            case EventValidator::TYPE_DEPOSIT:
                 $return = Deposit::new($params['destinationObj'], $params['amount']);
                 break;
-            case $event::TYPE_TRANSFER:
+            case EventValidator::TYPE_TRANSFER:
                 $return = Transfer::new($params['originObj'], $params['destinationObj'], $params['amount']);
                 break;
-            case $event::TYPE_WITHDRAW:
+            case EventValidator::TYPE_WITHDRAW:
                 $return = Withdraw::new($params['originObj'], $params['amount']);
                 break;
             default:
