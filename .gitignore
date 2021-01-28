@@ -1,3 +1,4 @@
 composer.phar
 /vendor/
 /.vscode/
+/database/api.sqlite3
