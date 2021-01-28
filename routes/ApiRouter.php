@@ -8,7 +8,7 @@ use App\Controllers\BalanceController;
 
 class ApiRouter
 {
-    public static function build(\Slim\App &$app)
+    public static function build(\Slim\App &$app): void
     {
         $app->post('/reset', ResetController::class . ':reset');
         $app->get('/balance', BalanceController::class . ':get');

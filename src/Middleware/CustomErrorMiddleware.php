@@ -8,7 +8,7 @@ use Slim\Exception\HttpBadRequestException;
 
 class CustomErrorMiddleware
 {
-    public static function add(\Slim\Middleware\ErrorMiddleware &$errorMiddleware)
+    public static function add(\Slim\Middleware\ErrorMiddleware &$errorMiddleware): void
     {
         $errorMiddleware->setErrorHandler(
             HttpMethodNotAllowedException::class,

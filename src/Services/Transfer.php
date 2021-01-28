@@ -6,7 +6,7 @@ use App\Models\Account;
 
 class Transfer
 {
-    public static function new(Account $origin, Account $destination, float $amount)
+    public static function new(Account $origin, Account $destination, float $amount): array
     {
         $origin->setBalance($origin->getBalance() - $amount);
         $origin->update();
