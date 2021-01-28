@@ -6,7 +6,13 @@ use App\Models\Account;
 
 class Deposit
 {
-    public function new(Account $detination, float $amount)
+    public static function new(Account $destination, float $amount)
     {
+        $destination->setBalance($destination->getBalance() + $amount);
+        $destination->update();
+
+        return [
+            'destination' => $destination->toArray()
+        ];
     }
 }

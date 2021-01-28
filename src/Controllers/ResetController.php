@@ -6,7 +6,7 @@ use App\Models\ApplicationModel;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class EventController
+class ResetController
 {
     public static function reset(Request $request, Response $response, $args)
     {

@@ -7,12 +7,11 @@ use PDO;
 class ApplicationModel
 {
     private $id;
-    private $createdAt;
     private $tableName;
 
     public function __construct()
     {
-        $this->pdo = new PDO('sqlite:../../database/api.db');
+        $this->pdo = new PDO('sqlite:' . __DIR__ . '/../../database/api.sqlite3');
     }
 
     public function resetDb()
@@ -148,6 +147,16 @@ class ApplicationModel
                 $this->$method($value);
             }
         }
+    }
+
+    public function toArray()
+    {
+        $vars = get_object_vars($this);
+
+        unset($vars['tableName']);
+        unset($vars['pdo']);
+
+        return $vars;
     }
 
     private function cleanVars()
