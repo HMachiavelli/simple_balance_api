@@ -12,7 +12,7 @@ class Transfer
         $origin->update();
 
         $destination->setBalance($destination->getBalance() + $amount);
-        $origin->update();
+        $destination->update();
 
         return [
             'origin' => $origin->toArray(),

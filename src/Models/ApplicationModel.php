@@ -16,26 +16,13 @@ class ApplicationModel
 
     public function resetDb()
     {
-        $delete = 'DROP TABLE IF EXISTS account; DROP TABLE IF EXISTS event';
+        $delete = 'DROP TABLE IF EXISTS account;';
         $this->pdo->exec($delete);
 
         $query = "CREATE TABLE IF NOT EXISTS 
                     account (
                         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                         balance REAL
-                    )";
-
-        $this->pdo->exec($query);
-
-        $query = "CREATE TABLE IF NOT EXISTS 
-                    event (
-                        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                        type TEXT,
-                        amount REAL,
-                        origin INTEGER,
-                        destination INTEGER,
-                        FOREIGN KEY(origin) REFERENCES account(id),
-                        FOREIGN KEY(destination) REFERENCES account(id)
                     )";
 
         $this->pdo->exec($query);
@@ -162,6 +149,8 @@ class ApplicationModel
 
         unset($vars['tableName']);
         unset($vars['pdo']);
+
+        $vars['id'] = (string)$vars['id'];
 
         return $vars;
     }

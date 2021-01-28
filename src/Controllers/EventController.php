@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Models\Account;
-use App\Models\Event;
 use App\Services\Deposit;
 use App\Services\Transfer;
 use App\Services\Withdraw;
