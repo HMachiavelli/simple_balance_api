@@ -10,6 +10,7 @@ use App\Services\Withdraw;
 use App\Validators\EventValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Exception\HttpBadRequestException;
 
 class EventController
 {
@@ -29,7 +30,7 @@ class EventController
                 $return = Withdraw::new($params['originObj'], $params['amount']);
                 break;
             default:
-                throw new \Exception('Invalid type.');
+                throw new HttpBadRequestException($request);
                 break;
         }
 
