@@ -13,7 +13,7 @@ class BalanceController
     {
         $query = $request->getQueryParams();
 
-        $balance = (new Account())->getById((int)($query['id'] ?? 0));
+        $balance = (new Account())->getById((int)($query['account_id'] ?? 0));
         if (!$balance) {
             throw new HttpNotFoundException($request);
         }

@@ -49,8 +49,12 @@ class ApplicationModel
         $sm->execute([':id' => $id]);
 
         $item = $sm->fetch(PDO::FETCH_ASSOC);
+        if (!$item) {
+            return false;
+        }
 
-        return $item;
+        $class = get_called_class();
+        return new $class($item);
     }
 
     public function all($status = 1)
@@ -75,24 +79,27 @@ class ApplicationModel
 
     public function insert()
     {
-        $query = "INSERT INTO {$this->tableName} SET ";
+        $vars = $this->cleanVars();
+        $fields = array_keys($vars);
 
-        $vars   = $this->cleanVars();
+        $query = "INSERT INTO {$this->tableName} (" . implode(',', $fields) . ") VALUES (";
         $fields = [];
 
         $numFields = count($vars) - 1;
         $i = 0;
         foreach ($vars as $field => $value) {
-            $query .= "{$field} = :{$field}" . ($i < $numFields ? ', ' : '');
+            $query .= ":{$field}" . ($i < $numFields ? ', ' : '');
             $fields[":{$field}"] = $value;
             $i++;
         }
+
+        $query .= ')';
 
         $st = $this->pdo->prepare($query);
         $executed = $st->execute($fields);
 
         if ($executed) {
-            $id = $this->pdo->lastInsertId();
+            $id = (int)$this->pdo->lastInsertId();
 
             $this->setId($id);
 
@@ -162,7 +169,7 @@ class ApplicationModel
     private function cleanVars()
     {
         $vars = array_filter(get_object_vars($this), function ($var, $key) {
-            return !is_null($var) && $key != 'tableName' && $key != 'id' && $key != 'pdo';
+            return !is_null($var) && $key != 'tableName' && $key != 'pdo';
         }, ARRAY_FILTER_USE_BOTH);
 
         return $vars;

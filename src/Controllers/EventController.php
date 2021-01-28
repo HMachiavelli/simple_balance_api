@@ -29,14 +29,14 @@ class EventController
                 $return = Transfer::new($params['originObj'], $params['destinationObj'], $params['amount']);
                 break;
             case $event::TYPE_WITHDRAW:
-                $return = Withdraw::new($params['destinationObj'], $params['amount']);
+                $return = Withdraw::new($params['originObj'], $params['amount']);
                 break;
             default:
                 throw new \Exception('Invalid type.');
                 break;
         }
 
-        $response->getBody()->write($return);
-        return $response->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode($return));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
     }
 }

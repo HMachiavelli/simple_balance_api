@@ -16,7 +16,7 @@ class Event extends ApplicationModel
     public function __construct(?array $params = [])
     {
         parent::__construct();
-        $this->fill('account', $params);
+        $this->fill('event', $params);
     }
 
     /**

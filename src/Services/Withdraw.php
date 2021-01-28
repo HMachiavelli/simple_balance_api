@@ -10,5 +10,9 @@ class Withdraw
     {
         $origin->setBalance($origin->getBalance() - $amount);
         $origin->update();
+
+        return [
+            'origin' => $origin->toArray()
+        ];
     }
 }

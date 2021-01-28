@@ -4,6 +4,7 @@ namespace App\Validators;
 
 use App\Models\Event;
 use App\Models\Account;
+use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpBadRequestException;
 
 class EventValidator
@@ -40,15 +41,15 @@ class EventValidator
         if (!empty($params['origin'])) {
             $origin = (new Account())->getById((int)$params['origin']);
             if (!$origin) {
-                throw new HttpBadRequestException($request, 'Invalid origin ID.');
+                throw new HttpNotFoundException($request);
             }
         }
 
         return [
             'type' => $params['type'],
             'amount' => (float)$params['amount'],
-            'origin' => (int)$params['origin'],
-            'destination' => (int)$params['destination'],
+            'origin' => (int)($params['origin'] ?? null),
+            'destination' => (int)($params['destination'] ?? null),
             'originObj' => $origin,
             'destinationObj' => $destination
         ];
